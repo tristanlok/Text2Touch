@@ -4,27 +4,23 @@ chrome.contextMenus.create({
   contexts: ["selection"]
 });
 
-chrome.runtime.onStartup.addListener(function () {
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.text) {
-      const selectedText = message.text;
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  if (message.text) {
+    try {
+      const port = await navigator.serial.requestPort();
+      // Assuming 9600 baud matches Arduino expectation
+      await port.open({ baudRate: 9600 });
 
-      chrome.serial.connect("COM5", { bitrate: 9600 }, (connectionInfo) => {
-        if (!connectionInfo) {
-          console.error("Could not connect to serial port.");
-          return;
-        }
+      const textEncoder = new TextEncoder();
+      const dataToSend = textEncoder.encode(message.text + '\n'); // Add a newline if needed
 
-        const textEncoder = new TextEncoder();
-        const dataToSend = textEncoder.encode(selectedText + '\n'); 
-        chrome.serial.send(connectionInfo.connectionId, dataToSend, (sendInfo) => {
-          if (sendInfo.error) {
-            console.error("Error sending data:", sendInfo.error);
-          } else {
-            console.log("Data sent successfully.");
-          }
-        });
-      });
+      const writer = port.writable.getWriter();
+      await writer.write(dataToSend);
+      writer.releaseLock(); // Important for cleanup of resource  
+      console.log("Data sent successfully.");
+
+    } catch (error) {
+      console.error("Error sending data:", error);
     }
-  });
+  }
 });
