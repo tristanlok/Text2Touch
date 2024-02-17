@@ -1,0 +1,13 @@
+{
+    "name": "Text2File",
+    "description": "Extracts highlighted text from a webpage to save to a file",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["downloads", "contextMenus"],
+    "background": { 
+      "service_worker": "background.js"
+    },
+    "icons": {
+      "128": "ChromeExtenIcon.png"
+    } 
+  }
