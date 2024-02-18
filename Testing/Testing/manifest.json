@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Text Saver",
+  "version": "1.0",
+  "description": "Save highlighted text to a file.",
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "downloads"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "48": "ChromeExtenIcon.png"
+  }
+}
