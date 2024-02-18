@@ -4,7 +4,7 @@ import time
 # Configuration
 serial_port = 'COM7'  # Adjust this to your Arduino's serial port
 baud_rate = 9600  # Match this to your Arduino's configured baud rate
-file_path = ' C:\eeee\eeee.txt'  # Path to your .txt file
+file_path = 'C:/Users/kelly\Downloads/text2touch.txt'  # Path to your .txt file
 
 # Open the serial connection
 ser = serial.Serial(serial_port, baud_rate, timeout=1)
